@@ -35,3 +35,6 @@ HEADERS  += mainwindow.h \
     qmat.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    ressources.qrc

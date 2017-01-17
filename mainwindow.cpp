@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setFixedSize(QSize(1100, 600));
 
+    ui->pushButtonBrowse->setMinimumWidth(150);
+
     ui->labelOriginalImageContainer->setFixedWidth(500);
     ui->labelOriginalImageContainer->setFixedHeight(500);
 
@@ -17,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QRect desktop = QDesktopWidget().screenGeometry();
     move(desktop.width() / 2 - 550, desktop.height() / 2 - 300);
+
+    connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 }
 
 MainWindow::~MainWindow()

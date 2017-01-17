@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/tools">
+        <file>icons/actions/error.svg</file>
+        <file>icons/actions/exit.svg</file>
+        <file>icons/actions/info.svg</file>
+        <file>icons/actions/Qt.svg</file>
+        <file>icons/tools/load.svg</file>
+        <file>icons/tools/saveAs.svg</file>
+    </qresource>
+</RCC>

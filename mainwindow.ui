@@ -20,16 +20,13 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>Save</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="pushButtonBrowse">
           <property name="text">
            <string>Browse image</string>
+          </property>
+          <property name="icon">
+           <iconset resource="ressources.qrc">
+            <normaloff>:/tools/icons/tools/load.svg</normaloff>:/tools/icons/tools/load.svg</iconset>
           </property>
          </widget>
         </item>
@@ -46,10 +43,24 @@
           </property>
          </spacer>
         </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Save</string>
+          </property>
+          <property name="icon">
+           <iconset resource="ressources.qrc">
+            <normaloff>:/tools/icons/tools/saveAs.svg</normaloff>:/tools/icons/tools/saveAs.svg</iconset>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="topMargin">
+         <number>20</number>
+        </property>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
@@ -101,10 +112,28 @@
      <height>30</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuKartoonize">
+    <property name="title">
+     <string>&amp;Kartoonize</string>
+    </property>
+    <addaction name="actionQuit"/>
+   </widget>
+   <addaction name="menuKartoonize"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionQuit">
+   <property name="icon">
+    <iconset resource="ressources.qrc">
+     <normaloff>:/tools/icons/actions/exit.svg</normaloff>:/tools/icons/actions/exit.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="ressources.qrc"/>
+ </resources>
  <connections/>
 </ui>
