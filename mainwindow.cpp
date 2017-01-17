@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qmat.h"
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -28,10 +26,9 @@ void MainWindow::on_pushButtonBrowse_clicked()
     QString tmp = dialogOpenFile();
     ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp));
 
-    //cv::Mat inputImage = cv::imread(tmp);
-
-    //QMat qmat(inputImage);
-    //qmat.show();
+    cv::Mat inputImage = cv::imread(tmp.toStdString());
+    QMat qmat(inputImage, ui->labelModifiedImageContainer);
+    qmat.show();
 
     qDebug() << tmp;
 }

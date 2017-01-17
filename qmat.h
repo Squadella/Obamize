@@ -15,7 +15,7 @@ class QMat : public QWidget
     Q_OBJECT
     public:
     QMat(QWidget *parent = 0);
-        QMat(cv::Mat newMat, QWidget *parent = 0);
+        QMat(cv::Mat newMat, QLabel *label, QWidget *parent = 0);
         QMat(cv::Mat (*mat_function)(), int waitTime = 30, QWidget *parent = 0);
         void setMat(cv::Mat newMat);
         void setFunction(cv::Mat (*new_function)());

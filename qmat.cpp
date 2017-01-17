@@ -9,9 +9,8 @@ QMat::QMat(QWidget *parent) : QWidget(parent)
     setLabel();
 }
 
-QMat::QMat(Mat newMat, QWidget *parent) : QWidget(parent), _mat(newMat)
+QMat::QMat(Mat newMat, QLabel *label, QWidget *parent) : QWidget(parent), _mat(newMat), _Label(label)
 {
-    _Label = new QLabel(this);
     setLabel();
 }
 
