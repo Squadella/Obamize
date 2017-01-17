@@ -31,6 +31,17 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButtonProcess">
+          <property name="text">
+           <string>Process</string>
+          </property>
+          <property name="icon">
+           <iconset resource="ressources.qrc">
+            <normaloff>:/tools/icons/tools/refresh.svg</normaloff>:/tools/icons/tools/refresh.svg</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
@@ -44,7 +55,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pushButtonSave">
           <property name="text">
            <string>Save</string>
           </property>
@@ -128,6 +139,9 @@
    </property>
    <property name="text">
     <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
  </widget>

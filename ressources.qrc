@@ -6,5 +6,6 @@
         <file>icons/actions/Qt.svg</file>
         <file>icons/tools/load.svg</file>
         <file>icons/tools/saveAs.svg</file>
+        <file>icons/tools/refresh.svg</file>
     </qresource>
 </RCC>

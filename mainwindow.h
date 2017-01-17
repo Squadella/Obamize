@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QStyle>
 #include <QDesktopWidget>
+#include <QSettings>
 
 #include <ctime>
 #include <iostream>
@@ -37,7 +38,10 @@ public:
 private slots:
     void on_pushButtonBrowse_clicked();
 
+    void on_pushButtonProcess_clicked();
+
 private:
+    QString filePath;
     Ui::MainWindow *ui;
 };
 

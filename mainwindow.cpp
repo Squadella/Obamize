@@ -7,9 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setFixedSize(QSize(1100, 600));
+    setFixedSize(QSize(1100, 650));
 
-    ui->pushButtonBrowse->setMinimumWidth(150);
+    ui->pushButtonProcess->setEnabled(false);
+    ui->pushButtonSave->setEnabled(false);
 
     ui->labelOriginalImageContainer->setFixedWidth(500);
     ui->labelOriginalImageContainer->setFixedHeight(500);
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelModifiedImageContainer->setFixedHeight(500);
 
     QRect desktop = QDesktopWidget().screenGeometry();
-    move(desktop.width() / 2 - 550, desktop.height() / 2 - 300);
+    move(desktop.width() / 2 - 550, desktop.height() / 2 - 325);
 
     connect(ui->actionQuit, &QAction::triggered, this, &MainWindow::close);
 }
@@ -37,19 +38,27 @@ QString MainWindow::dialogOpenFile()
 
 void MainWindow::on_pushButtonBrowse_clicked()
 {
-    QString tmp = dialogOpenFile();
+    filePath = dialogOpenFile();
 
-    ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->labelOriginalImageContainer->setPixmap(QPixmap(filePath).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
-    cv::Mat inputImage = cv::imread(tmp.toStdString());
-    cv::Mat detectedBorders = inputImage;
+    ui->pushButtonProcess->setEnabled(true);
+}
 
-    cv::cvtColor(inputImage, detectedBorders, CV_BGR2GRAY);
-    cv::Canny(detectedBorders, detectedBorders, 50, 150, 3);
-    detectedBorders.convertTo(inputImage, CV_8U);
+void MainWindow::on_pushButtonProcess_clicked()
+{
+    if(!filePath.isEmpty())
+    {
+        cv::Mat inputImage = cv::imread(filePath.toStdString());
+        cv::Mat detectedBorders = inputImage;
 
-    QMat qmat(inputImage, ui->labelModifiedImageContainer);
-    qmat.show();
+        cv::cvtColor(inputImage, detectedBorders, CV_BGR2GRAY);
+        cv::Canny(detectedBorders, detectedBorders, 50, 150, 3);
+        detectedBorders.convertTo(inputImage, CV_8U);
 
-    qDebug() << tmp;
+        QMat qmat(inputImage, ui->labelModifiedImageContainer);
+        qmat.show();
+
+        ui->pushButtonSave->setEnabled(true);
+    }
 }
