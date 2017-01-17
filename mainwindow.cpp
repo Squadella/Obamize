@@ -44,9 +44,18 @@ void MainWindow::on_pushButtonProcess_clicked()
     {
         cv::Mat inputImage = cv::imread(filePath.toStdString());
         cv::Mat detectedBorders = inputImage;
+        cv::Mat BckpImg = inputImage;
+        cv::Mat layer1 = inputImage;
 
-        cv::cvtColor(inputImage, detectedBorders, CV_BGR2GRAY);
+        cv::medianBlur(layer1, layer1, 3);
+        cv::cvtColor(layer1, detectedBorders, CV_BGR2GRAY);
         cv::Canny(detectedBorders, detectedBorders, 50, 150, 3);
+        //Itterate for bigger zone.
+        cv::dilate(detectedBorders, detectedBorders, cv::Mat());
+        //cv::MemStorage *storage =
+        cv::hconcat(BckpImg, detectedBorders);
+        cv::vconcat(BckpImg, detectedBorders);
+
         detectedBorders.convertTo(inputImage, CV_8U);
 
         QMat qmat(inputImage, ui->labelModifiedImageContainer);
