@@ -7,6 +7,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->labelOriginalImageContainer->setFixedWidth(500);
+    ui->labelOriginalImageContainer->setFixedHeight(500);
+
+    ui->labelModifiedImageContainer->setFixedWidth(500);
+    ui->labelModifiedImageContainer->setFixedHeight(500);
 }
 
 MainWindow::~MainWindow()

@@ -55,7 +55,7 @@ void QMat::setLabel()
         QPixmap p;
         cvtColor(_mat, rgb, (-2*_mat.channels()+10));
         p.convertFromImage(QImage(rgb.data, rgb.cols, rgb.rows, QImage::Format_RGB888));
-        _Label->setPixmap(p);
+        _Label->setPixmap(p.scaled(_Label->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         resize(_mat.cols, _mat.rows);
     }
 }
