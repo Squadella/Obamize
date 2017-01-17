@@ -1,8 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qmat.h"
+
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QTimer>
+#include <QLabel>
+#include <QDebug>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+#include <opencv/cxcore.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <ctime>
+#include <iostream>
 
 namespace Ui {
 class MainWindow;
@@ -18,7 +29,7 @@ public:
     QString dialogOpenFile();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_pushButtonBrowse_clicked();
 
 private:
     Ui::MainWindow *ui;

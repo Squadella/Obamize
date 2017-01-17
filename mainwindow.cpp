@@ -1,17 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "qmat.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    cv::Mat inputImage = cv::imread("/home/squadella/Documents/GitHub/Kartoonize/LP.png");
-    if(!inputImage.empty()) cv::imshow("Display Image", inputImage);
 }
 
 MainWindow::~MainWindow()
@@ -26,8 +23,15 @@ QString MainWindow::dialogOpenFile()
                                         "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButtonBrowse_clicked()
 {
     QString tmp = dialogOpenFile();
+    ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp));
+
+    //cv::Mat inputImage = cv::imread(tmp);
+
+    //QMat qmat(inputImage);
+    //qmat.show();
+
     qDebug() << tmp;
 }

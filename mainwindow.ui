@@ -6,25 +6,77 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1007</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="pushButtonBrowse">
     <property name="geometry">
      <rect>
-      <x>170</x>
-      <y>130</y>
-      <width>88</width>
+      <x>10</x>
+      <y>30</y>
+      <width>111</width>
       <height>34</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Browse image</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>20</y>
+      <width>111</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Original picture :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>20</y>
+      <width>111</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modified picture :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelOriginalImageContainer">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>50</y>
+      <width>181</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OriginalImageContainer</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="labelModifiedImageContainer">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>50</y>
+      <width>171</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OriginalImageContainer</string>
     </property>
    </widget>
   </widget>
@@ -33,7 +85,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>1007</width>
      <height>30</height>
     </rect>
    </property>

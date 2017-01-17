@@ -12,7 +12,7 @@ TARGET = Kartoonize
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lopencv_highgui
 
 
 # The following define makes your compiler emit warnings if you use
@@ -28,8 +28,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    qmat.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    qmat.h
 
 FORMS    += mainwindow.ui
