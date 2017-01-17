@@ -34,6 +34,12 @@ void MainWindow::on_pushButtonBrowse_clicked()
     ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     cv::Mat inputImage = cv::imread(tmp.toStdString());
+    cv::Mat detectedBorders = inputImage;
+
+    cv::cvtColor(inputImage, detectedBorders, CV_BGR2GRAY);
+    cv::Canny(detectedBorders, detectedBorders, 50, 150, 3);
+    detectedBorders.convertTo(inputImage, CV_8U);
+
     QMat qmat(inputImage, ui->labelModifiedImageContainer);
     qmat.show();
 
