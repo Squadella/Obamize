@@ -58,8 +58,8 @@
      <rect>
       <x>130</x>
       <y>50</y>
-      <width>181</width>
-      <height>18</height>
+      <width>361</width>
+      <height>361</height>
      </rect>
     </property>
     <property name="text">
@@ -69,10 +69,10 @@
    <widget class="QLabel" name="labelModifiedImageContainer">
     <property name="geometry">
      <rect>
-      <x>490</x>
+      <x>520</x>
       <y>50</y>
-      <width>171</width>
-      <height>18</height>
+      <width>431</width>
+      <height>391</height>
      </rect>
     </property>
     <property name="text">

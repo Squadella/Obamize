@@ -24,7 +24,8 @@ QString MainWindow::dialogOpenFile()
 void MainWindow::on_pushButtonBrowse_clicked()
 {
     QString tmp = dialogOpenFile();
-    ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp));
+
+    ui->labelOriginalImageContainer->setPixmap(QPixmap(tmp).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
     cv::Mat inputImage = cv::imread(tmp.toStdString());
     QMat qmat(inputImage, ui->labelModifiedImageContainer);
