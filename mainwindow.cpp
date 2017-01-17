@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,4 +17,17 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+//Display the dialog that ask a folder from user
+QString MainWindow::dialogOpenFile()
+{
+    return QFileDialog::getOpenFileName(this,
+                                        "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString tmp = dialogOpenFile();
+    qDebug() << tmp;
 }
