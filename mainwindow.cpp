@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    cv::Mat inputImage = cv::imread("/home/messmaker/Documents/Programming/c++/DigitalImaging/LP.png");
+    cv::Mat inputImage = cv::imread("/home/squadella/Documents/GitHub/Kartoonize/LP.png");
     if(!inputImage.empty()) cv::imshow("Display Image", inputImage);
 }
 

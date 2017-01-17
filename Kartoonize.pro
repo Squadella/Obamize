@@ -12,7 +12,7 @@ TARGET = Kartoonize
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_highgui
 
 
 # The following define makes your compiler emit warnings if you use
