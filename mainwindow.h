@@ -8,14 +8,18 @@
 #include <QTimer>
 #include <QLabel>
 #include <QDebug>
+#include <QStyle>
+#include <QDesktopWidget>
+
+#include <ctime>
+#include <iostream>
+
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
 #include <opencv/cxcore.h>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include <ctime>
-#include <iostream>
 
 namespace Ui {
 class MainWindow;

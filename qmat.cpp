@@ -16,12 +16,12 @@ QMat::QMat(Mat newMat, QLabel *label, QWidget *parent) : QWidget(parent), _mat(n
 
 QMat::QMat(Mat (*mat_function)(), int waitTime, QWidget *parent) : QWidget(parent), _function(mat_function)
 {
-        _timer = new QTimer(this);
-        _timer->start(waitTime);
-        _mat = _function();
-        _Label = new QLabel(this);
-        connect(_timer, SIGNAL(timeout()), this, SLOT(getFunctionMat()));
-        setLabel();
+    _timer = new QTimer(this);
+    _timer->start(waitTime);
+    _mat = _function();
+    _Label = new QLabel(this);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(getFunctionMat()));
+    setLabel();
 }
 
 void QMat::setWaitingTime(int newt)
@@ -31,9 +31,9 @@ void QMat::setWaitingTime(int newt)
 
 void QMat::getFunctionMat()
 {
-        _mat = _function();
+    _mat = _function();
     emit matChanged();
-        setLabel();
+    setLabel();
 }
 
 void QMat::setMat(cv::Mat newMat)

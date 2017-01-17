@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "qmat.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -8,11 +7,16 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setFixedSize(QSize(1100, 600));
+
     ui->labelOriginalImageContainer->setFixedWidth(500);
     ui->labelOriginalImageContainer->setFixedHeight(500);
 
     ui->labelModifiedImageContainer->setFixedWidth(500);
     ui->labelModifiedImageContainer->setFixedHeight(500);
+
+    QRect desktop = QDesktopWidget().screenGeometry();
+    move(desktop.width() / 2 - 550, desktop.height() / 2 - 300);
 }
 
 MainWindow::~MainWindow()
