@@ -29,13 +29,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//Display the dialog that ask a folder from user
-QString MainWindow::dialogOpenFile()
-{
-    return QFileDialog::getOpenFileName(this,
-                                        "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
-}
-
 void MainWindow::on_pushButtonBrowse_clicked()
 {
     filePath = dialogOpenFile();
@@ -61,4 +54,10 @@ void MainWindow::on_pushButtonProcess_clicked()
 
         ui->pushButtonSave->setEnabled(true);
     }
+}
+
+QString MainWindow::dialogOpenFile()
+{
+    return QFileDialog::getOpenFileName(this,
+                                        "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
 }

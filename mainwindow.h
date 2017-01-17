@@ -33,12 +33,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QString dialogOpenFile();
 
 private slots:
     void on_pushButtonBrowse_clicked();
-
     void on_pushButtonProcess_clicked();
+    QString dialogOpenFile();
 
 private:
     QString filePath;
