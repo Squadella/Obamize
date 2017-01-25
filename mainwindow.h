@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "qmat.h"
-
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QTimer>
@@ -14,6 +12,7 @@
 
 #include <ctime>
 #include <iostream>
+#include <cstdlib>
 
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
@@ -37,6 +36,7 @@ public:
 private slots:
     void on_pushButtonBrowse_clicked();
     void on_pushButtonProcess_clicked();
+    void setLayerOne(cv::Mat inputImage);
     QString dialogOpenFile();
 
 private:

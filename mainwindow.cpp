@@ -34,7 +34,6 @@ void MainWindow::on_pushButtonBrowse_clicked()
     filePath = dialogOpenFile();
 
     ui->labelOriginalImageContainer->setPixmap(QPixmap(filePath).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-
     ui->pushButtonProcess->setEnabled(true);
 }
 
@@ -43,25 +42,32 @@ void MainWindow::on_pushButtonProcess_clicked()
     if(!filePath.isEmpty())
     {
         cv::Mat inputImage = cv::imread(filePath.toStdString());
-        cv::Mat detectedBorders = inputImage;
-        cv::Mat BckpImg = inputImage;
-        cv::Mat layer1 = inputImage;
+        QPixmap p;
 
-        cv::medianBlur(layer1, layer1, 3);
-        cv::cvtColor(layer1, detectedBorders, CV_BGR2GRAY);
-        cv::Canny(detectedBorders, detectedBorders, 50, 150, 3);
-        //Itterate for bigger zone.
-        cv::dilate(detectedBorders, detectedBorders, cv::Mat());
-        //cv::MemStorage *storage =
-        cv::hconcat(BckpImg, detectedBorders);
-        cv::vconcat(BckpImg, detectedBorders);
+        setLayerOne(inputImage);
 
-        detectedBorders.convertTo(inputImage, CV_8U);
+        cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
+        p.convertFromImage(QImage(inputImage.data, inputImage.cols, inputImage.rows, QImage::Format_RGB888));
 
-        QMat qmat(inputImage, ui->labelModifiedImageContainer);
-        qmat.show();
-
+        ui->labelModifiedImageContainer->setPixmap(p.scaled(ui->labelModifiedImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->pushButtonSave->setEnabled(true);
+    }
+}
+
+void MainWindow::setLayerOne(cv::Mat inputImage)
+{
+    for(int y = 0; y < inputImage.rows ;++y)
+    {
+        for(int x = 0 ; x < inputImage.cols ;++x)
+        {
+            cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+            color.val[0] = 255;
+            color.val[1] = 228;
+            color.val[2] = 161;
+
+            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+        }
     }
 }
 
