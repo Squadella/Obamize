@@ -38,6 +38,7 @@ private slots:
     void on_pushButtonProcess_clicked();
     void setLayerOne(cv::Mat inputImage);
     void setLayerTwo(cv::Mat inputImage);
+    void setLayerThree(cv::Mat image);
     QString dialogOpenFile();
 
 private:
