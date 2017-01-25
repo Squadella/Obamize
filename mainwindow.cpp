@@ -45,6 +45,7 @@ void MainWindow::on_pushButtonProcess_clicked()
         QPixmap p;
 
         setLayerOne(inputImage);
+        setLayerTwo(inputImage);
 
         cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
         p.convertFromImage(QImage(inputImage.data, inputImage.cols, inputImage.rows, QImage::Format_RGB888));
@@ -62,9 +63,36 @@ void MainWindow::setLayerOne(cv::Mat inputImage)
         {
             cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
 
-            color.val[0] = 255;
+            color.val[0] = 161;
             color.val[1] = 228;
-            color.val[2] = 161;
+            color.val[2] = 255;
+
+            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+        }
+    }
+}
+
+void MainWindow::setLayerTwo(cv::Mat inputImage)
+{
+    for(int y = 30; y < inputImage.rows - 30 ;++y)
+    {
+        for(int x = 30 ; x < (inputImage.cols / 2) ;++x)
+        {
+            cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+            color.val[0] = 159;
+            color.val[1] = 150;
+            color.val[2] = 113;
+
+            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+        }
+        for(int x = (inputImage.cols / 2) ; x < inputImage.cols - 30 ;++x)
+        {
+            cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+            color.val[0] = 34;
+            color.val[1] = 26;
+            color.val[2] = 217;
 
             inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
         }
