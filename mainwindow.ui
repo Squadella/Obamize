@@ -55,18 +55,18 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>Margin left</string>
+             <string>Height        </string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="sliderMarginLeft">
+           <widget class="QSlider" name="sliderHeight">
             <property name="value">
-             <number>20</number>
+             <number>50</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -97,18 +97,18 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="label_6">
+           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Height        </string>
+             <string>Margin left</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="sliderHeight">
+           <widget class="QSlider" name="sliderMarginLeft">
             <property name="value">
-             <number>50</number>
+             <number>20</number>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>

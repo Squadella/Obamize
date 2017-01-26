@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setFixedSize(QSize(1100, 650));
+    //setFixedSize(QSize(1100, 650));
 
     this->marginTop = ui->sliderMarginTop->value();
     this->marginLeft = ui->sliderMarginLeft->value();
@@ -162,15 +162,22 @@ void MainWindow::setLayerTwo(cv::Mat inputImage)
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)
 {
-    marginTop = ((position * inputImage.rows) / 100);
+    marginTop = ((position * (inputImage.rows - height)) / 100);
+    while(marginTop+height > inputImage.rows)
+        --height;
+
     cv::Rect rectangle(marginLeft,  marginTop, width, height);
     faceSelection = rectangle;
     onPositionChangeEvent();
 }
 
-void MainWindow::on_sliderMarginLeft_sliderMoved(int position)
+void MainWindow::on_sliderHeight_sliderMoved(int position)
 {
-    marginLeft = ((position * inputImage.cols) / 100);
+    height = ((position * inputImage.rows - marginTop) / 100);
+    while(marginTop+height > inputImage.rows)
+        --marginTop;
+    if(height==0)
+        ++height;
     cv::Rect rectangle(marginLeft, marginTop, width, height);
     faceSelection = rectangle;
     onPositionChangeEvent();
@@ -178,15 +185,23 @@ void MainWindow::on_sliderMarginLeft_sliderMoved(int position)
 
 void MainWindow::on_sliderWidth_sliderMoved(int position)
 {
-    width = ((position * inputImage.cols) / 100);
+    width = ((position * (inputImage.cols - marginLeft)) / 100);
+    while(marginLeft+width > inputImage.cols)
+        --marginLeft;
+    if(width==0)
+        ++width;
     cv::Rect rectangle(marginLeft, marginTop, width, height);
     faceSelection = rectangle;
     onPositionChangeEvent();
 }
 
-void MainWindow::on_sliderHeight_sliderMoved(int position)
+void MainWindow::on_sliderMarginLeft_sliderMoved(int position)
 {
-    height = ((position * inputImage.rows) / 100);
+    marginLeft = ((position * (inputImage.cols - width)) / 100);
+    while(marginLeft+width > inputImage.cols)
+        --width;
+    if(width==0)
+        ++width;
     cv::Rect rectangle(marginLeft, marginTop, width, height);
     faceSelection = rectangle;
     onPositionChangeEvent();
