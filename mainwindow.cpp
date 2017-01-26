@@ -9,6 +9,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setFixedSize(QSize(1100, 650));
 
+    this->marginTop = ui->sliderMarginTop->value();
+    this->marginLeft = ui->sliderMarginLeft->value();
+    this->width = 100;
+    this->height = 100;
+
+
+    cv::Rect rectangle(marginLeft, marginTop, width, height);
+    faceSelection = rectangle;
+
     ui->pushButtonProcess->setEnabled(false);
     ui->pushButtonSave->setEnabled(false);
 
@@ -29,11 +38,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::onPositionChangeEvent()
+{
+    if(!filePath.isEmpty())
+    {
+        inputImage = cv::imread(filePath.toStdString());
+        QPixmap p;
+
+        cv::rectangle(inputImage, faceSelection, cv::Scalar(0, 0, 0), 1);
+
+        cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
+        p.convertFromImage(QImage(inputImage.data, inputImage.cols, inputImage.rows, QImage::Format_RGB888));
+
+        //threshold(inputImage, inputImage, thresh, maxValue, cv::THRESH_BINARY_INV);
+
+        ui->labelOriginalImageContainer->setPixmap(p.scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    }
+}
+
 void MainWindow::on_pushButtonBrowse_clicked()
 {
     filePath = dialogOpenFile();
-
-    ui->labelOriginalImageContainer->setPixmap(QPixmap(filePath).scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    onPositionChangeEvent();
     ui->pushButtonProcess->setEnabled(true);
 }
 
@@ -44,15 +70,11 @@ void MainWindow::on_pushButtonProcess_clicked()
         cv::Mat inputImage = cv::imread(filePath.toStdString());
         cv::Mat image = inputImage;
         QPixmap p;
-        setLayerOne(inputImage);
-        setLayerTwo(inputImage);
+        //setLayerOne(inputImage);
+        //setLayerTwo(inputImage);
 
-        cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
-        p.convertFromImage(QImage(inputImage.data, inputImage.cols, inputImage.rows, QImage::Format_RGB888));
         double thresh = 127;
         double maxValue = 255;
-
-        cv::Rect rectangle(1,1,image.cols-1,image.rows-1);
 
         cv::Mat result; // segmentation result (4 possible values)
         cv::Mat bgModel,fgModel; // the models (internally used)
@@ -60,7 +82,7 @@ void MainWindow::on_pushButtonProcess_clicked()
         // GrabCut segmentation
         cv::grabCut(image,    // input image
                     result,   // segmentation result
-                    rectangle,// rectangle containing foreground
+                    faceSelection,// rectangle containing foreground
                     bgModel,fgModel, // models
                     1,        // number of iterations
                     cv::GC_INIT_WITH_RECT); // use rectangle
@@ -71,6 +93,7 @@ void MainWindow::on_pushButtonProcess_clicked()
         //cv::Mat background(image.size(),CV_8UC3,cv::Scalar(255,255,255));
         image.copyTo(foreground,result); // bg pixels not copied
 
+        cv::rectangle(foreground, faceSelection, cv::Scalar(255,255,255),1);
         /*
         mask = np.zeros(img.shape[:2],np.uint8)
         bgdModel = np.zeros((1,65),np.float64)
@@ -137,8 +160,43 @@ void MainWindow::setLayerTwo(cv::Mat inputImage)
     }
 }
 
+void MainWindow::on_sliderMarginTop_sliderMoved(int position)
+{
+    marginTop = ((position * inputImage.rows) / 100);
+    cv::Rect rectangle(marginLeft,  marginTop, width, height);
+    faceSelection = rectangle;
+    onPositionChangeEvent();
+}
+
+void MainWindow::on_sliderMarginLeft_sliderMoved(int position)
+{
+    marginLeft = ((position * inputImage.cols) / 100);
+    cv::Rect rectangle(marginLeft, marginTop, width, height);
+    faceSelection = rectangle;
+    onPositionChangeEvent();
+}
+
+void MainWindow::on_sliderWidth_sliderMoved(int position)
+{
+    width = ((position * inputImage.cols) / 100);
+    cv::Rect rectangle(marginLeft, marginTop, width, height);
+    faceSelection = rectangle;
+    onPositionChangeEvent();
+}
+
+void MainWindow::on_sliderHeight_sliderMoved(int position)
+{
+    height = ((position * inputImage.rows) / 100);
+    cv::Rect rectangle(marginLeft, marginTop, width, height);
+    faceSelection = rectangle;
+    onPositionChangeEvent();
+}
+
 QString MainWindow::dialogOpenFile()
 {
     return QFileDialog::getOpenFileName(this,
                                         "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
 }
+
+
+

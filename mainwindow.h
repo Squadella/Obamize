@@ -38,12 +38,25 @@ private slots:
     void on_pushButtonProcess_clicked();
     void setLayerOne(cv::Mat inputImage);
     void setLayerTwo(cv::Mat inputImage);
-    void setLayerThree(cv::Mat image);
+    //void setLayerThree(cv::Mat image);
     QString dialogOpenFile();
+    void on_sliderMarginTop_sliderMoved(int position);
+    void on_sliderMarginLeft_sliderMoved(int position);
+    void on_sliderWidth_sliderMoved(int position);
+
+    void on_sliderHeight_sliderMoved(int position);
 
 private:
     QString filePath;
     Ui::MainWindow *ui;
+    int marginTop;
+    int marginLeft;
+    int width;
+    int height;
+    cv::Rect faceSelection;
+    cv::Mat inputImage;
+
+    void onPositionChangeEvent();
 };
 
 #endif // MAINWINDOW_H
