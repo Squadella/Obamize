@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Kartoonize
+TARGET = Obamize
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include/opencv

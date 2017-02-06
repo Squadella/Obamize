@@ -258,7 +258,7 @@
    </property>
    <widget class="QMenu" name="menuKartoonize">
     <property name="title">
-     <string>&amp;Kartoonize</string>
+     <string>Oba&amp;mize</string>
     </property>
     <addaction name="actionQuit"/>
    </widget>
