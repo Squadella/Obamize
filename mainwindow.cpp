@@ -66,29 +66,31 @@ void MainWindow::on_pushButtonProcess_clicked()
     if(!filePath.isEmpty())
     {
         cv::Mat inputImage = cv::imread(filePath.toStdString());
-        cv::Mat image = inputImage;
+        cv::Mat image;
+        inputImage.copyTo(image);
         QPixmap p;
-        //setLayerOne(inputImage);
-        //setLayerTwo(inputImage);
+
+        setLayerOne(image);
+        setLayerTwo(image);
 
         cv::Mat result;
         cv::Mat bgModel, fgModel;
 
-        cv::grabCut(image,
+        cv::grabCut(inputImage,
                     result,
                     faceSelection,
                     bgModel, fgModel,
                     1,
                     cv::GC_INIT_WITH_RECT);
 
-        cv::compare(result,cv::GC_PR_FGD,result,cv::CMP_EQ);
+        cv::compare(result, cv::GC_PR_FGD, result, cv::CMP_EQ);
 
-        cv::Mat foreground(image.size(),CV_8UC3,cv::Scalar(255,255,255));
-        image.copyTo(foreground,result);
+        //cv::Mat foreground(inputImage.size(), CV_8UC3, cv::Scalar(255, 255, 255));
+        inputImage.copyTo(image, result);
 
-        cv::rectangle(foreground, faceSelection, cv::Scalar(255,255,255),1);
-        cv::cvtColor(foreground, foreground, CV_BGR2RGB);
-        p.convertFromImage(QImage(foreground.data, foreground.cols, foreground.rows, QImage::Format_RGB888));
+        cv::cvtColor(image, image, CV_BGR2RGB);
+
+        p.convertFromImage(QImage(image.data, image.cols, image.rows, QImage::Format_RGB888));
 
         ui->labelModifiedImageContainer->setPixmap(p.scaled(ui->labelModifiedImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->pushButtonSave->setEnabled(true);
@@ -114,9 +116,9 @@ void MainWindow::setLayerOne(cv::Mat inputImage)
 
 void MainWindow::setLayerTwo(cv::Mat inputImage)
 {
-    for(int y = 30; y < inputImage.rows - 30 ;++y)
+    for(int y = 10; y < inputImage.rows - 10 ;++y)
     {
-        for(int x = 30 ; x < (inputImage.cols / 2) ;++x)
+        for(int x = 10 ; x < (inputImage.cols / 2) ;++x)
         {
             cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
 
@@ -126,7 +128,7 @@ void MainWindow::setLayerTwo(cv::Mat inputImage)
 
             inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
         }
-        for(int x = (inputImage.cols / 2) ; x < inputImage.cols - 30 ;++x)
+        for(int x = (inputImage.cols / 2) ; x < inputImage.cols - 10 ;++x)
         {
             cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
 
