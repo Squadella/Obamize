@@ -56,6 +56,7 @@ private:
     cv::Rect faceSelection;
     cv::Mat inputImage;
     cv::Mat outputImage;
+    cv::Mat selectionImage;
 
     void onPositionChangeEvent();
 };

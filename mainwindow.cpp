@@ -67,17 +67,14 @@ void MainWindow::on_pushButtonProcess_clicked()
 {
     if(!filePath.isEmpty())
     {
-        cv::Mat inputImage = cv::imread(filePath.toStdString());
-        cv::Mat tmp;
         QPixmap p;
 
         setLayerOne();
         setLayerTwo();
-        setLayerThree();
+        setLayerThree();   
 
-        outputImage.copyTo(tmp);
-        cv::cvtColor(tmp, tmp, CV_BGR2RGB);
-        p.convertFromImage(QImage(tmp.data, tmp.cols, tmp.rows, QImage::Format_RGB888));
+        cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
+        p.convertFromImage(QImage(outputImage.data, outputImage.cols, outputImage.rows, QImage::Format_RGB888));
 
         ui->labelModifiedImageContainer->setPixmap(p.scaled(ui->labelModifiedImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->pushButtonSave->setEnabled(true);
@@ -131,20 +128,21 @@ void MainWindow::setLayerTwo()
 
 void MainWindow::setLayerThree()
 {
-    cv::Mat result;
     cv::Mat bgModel, fgModel;
 
     cv::grabCut(inputImage,
-                result,
+                selectionImage,
                 faceSelection,
                 bgModel, fgModel,
                 1,
                 cv::GC_INIT_WITH_RECT);
 
-    cv::compare(result, cv::GC_PR_FGD, result, cv::CMP_EQ);
-    inputImage.copyTo(outputImage, result);
-    //
+    cv::compare(selectionImage, cv::GC_PR_FGD, selectionImage, cv::CMP_EQ);
 
+    cv::Mat foreground(inputImage.size(), CV_8UC3, cv::Scalar(79, 49, 2));
+
+    foreground.copyTo(outputImage, selectionImage);
+    //inputImage.copyTo(outputImage, selectionImage);
 }
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)
