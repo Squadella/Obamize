@@ -71,7 +71,7 @@ void MainWindow::on_pushButtonProcess_clicked()
 
         setLayerOne();
         setLayerTwo();
-        setLayerThree();   
+        setLayerThree();
         setText();
 
         cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
@@ -148,7 +148,14 @@ void MainWindow::setLayerThree()
 
 void MainWindow::setText()
 {
-    std::string text = "NO WE CAN'T";
+    if(!ui->lineEditText->text().isEmpty())
+        setTextAux(ui->lineEditText->text().toStdString());
+    else
+        setTextAux("ANOTHER ONE");
+}
+
+void MainWindow::setTextAux(std::string text)
+{
     int fontFace = cv::FONT_HERSHEY_DUPLEX;
     double fontScale = 1.33;
     int thickness = 2;
