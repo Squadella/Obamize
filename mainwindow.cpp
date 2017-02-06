@@ -71,7 +71,8 @@ void MainWindow::on_pushButtonProcess_clicked()
 
         setLayerOne();
         setLayerTwo();
-        setLayerThree();   
+        setLayerThree();
+        setLayerFour();
 
         cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
         p.convertFromImage(QImage(outputImage.data, outputImage.cols, outputImage.rows, QImage::Format_RGB888));
@@ -143,6 +144,17 @@ void MainWindow::setLayerThree()
 
     foreground.copyTo(outputImage, selectionImage);
     //inputImage.copyTo(outputImage, selectionImage);
+}
+
+void MainWindow::setLayerFour()
+{
+    cv::Mat tmp;
+    inputImage.copyTo(tmp);
+    cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
+    cv::threshold(tmp, tmp, 150, 255, CV_THRESH_BINARY_INV);
+
+    cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
+    tmp.copyTo(outputImage, selectionImage);
 }
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)
