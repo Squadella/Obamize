@@ -36,9 +36,9 @@ public:
 private slots:
     void on_pushButtonBrowse_clicked();
     void on_pushButtonProcess_clicked();
-    void setLayerOne(cv::Mat inputImage);
-    void setLayerTwo(cv::Mat inputImage);
-    //void setLayerThree(cv::Mat image);
+    void setLayerOne();
+    void setLayerTwo();
+    void setLayerThree();
     QString dialogOpenFile();
     void on_sliderMarginTop_sliderMoved(int position);
     void on_sliderMarginLeft_sliderMoved(int position);
@@ -55,6 +55,7 @@ private:
     int height;
     cv::Rect faceSelection;
     cv::Mat inputImage;
+    cv::Mat outputImage;
 
     void onPositionChangeEvent();
 };

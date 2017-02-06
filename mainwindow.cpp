@@ -43,12 +43,14 @@ void MainWindow::onPositionChangeEvent()
     if(!filePath.isEmpty())
     {
         inputImage = cv::imread(filePath.toStdString());
+        cv::Mat tmp;
+        inputImage.copyTo(tmp);
         QPixmap p;
 
-        cv::rectangle(inputImage, faceSelection, cv::Scalar(0, 0, 0), 1);
+        cv::rectangle(tmp, faceSelection, cv::Scalar(0, 0, 0), 1);
 
-        cv::cvtColor(inputImage, inputImage, CV_BGR2RGB);
-        p.convertFromImage(QImage(inputImage.data, inputImage.cols, inputImage.rows, QImage::Format_RGB888));
+        cv::cvtColor(tmp, tmp, CV_BGR2RGB);
+        p.convertFromImage(QImage(tmp.data, tmp.cols, tmp.rows, QImage::Format_RGB888));
 
         ui->labelOriginalImageContainer->setPixmap(p.scaled(ui->labelOriginalImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
@@ -66,69 +68,55 @@ void MainWindow::on_pushButtonProcess_clicked()
     if(!filePath.isEmpty())
     {
         cv::Mat inputImage = cv::imread(filePath.toStdString());
-        cv::Mat image;
-        inputImage.copyTo(image);
+        cv::Mat tmp;
         QPixmap p;
 
-        setLayerOne(image);
-        setLayerTwo(image);
+        setLayerOne();
+        setLayerTwo();
+        setLayerThree();
 
-        cv::Mat result;
-        cv::Mat bgModel, fgModel;
-
-        cv::grabCut(inputImage,
-                    result,
-                    faceSelection,
-                    bgModel, fgModel,
-                    1,
-                    cv::GC_INIT_WITH_RECT);
-
-        cv::compare(result, cv::GC_PR_FGD, result, cv::CMP_EQ);
-
-        //cv::Mat foreground(inputImage.size(), CV_8UC3, cv::Scalar(255, 255, 255));
-        inputImage.copyTo(image, result);
-
-        cv::cvtColor(image, image, CV_BGR2RGB);
-
-        p.convertFromImage(QImage(image.data, image.cols, image.rows, QImage::Format_RGB888));
+        outputImage.copyTo(tmp);
+        cv::cvtColor(tmp, tmp, CV_BGR2RGB);
+        p.convertFromImage(QImage(tmp.data, tmp.cols, tmp.rows, QImage::Format_RGB888));
 
         ui->labelModifiedImageContainer->setPixmap(p.scaled(ui->labelModifiedImageContainer->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         ui->pushButtonSave->setEnabled(true);
     }
 }
 
-void MainWindow::setLayerOne(cv::Mat inputImage)
+void MainWindow::setLayerOne()
 {
-    for(int y = 0; y < inputImage.rows ;++y)
+    inputImage.copyTo(outputImage);
+    for(int y = 0; y < outputImage.rows ;++y)
     {
-        for(int x = 0 ; x < inputImage.cols ;++x)
+        for(int x = 0 ; x < outputImage.cols ;++x)
         {
-            cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
+            cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
 
             color.val[0] = 161;
             color.val[1] = 228;
             color.val[2] = 255;
 
-            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
         }
     }
 }
 
-void MainWindow::setLayerTwo(cv::Mat inputImage)
+void MainWindow::setLayerTwo()
 {
-    for(int y = 10; y < inputImage.rows - 10 ;++y)
+    for(int y = 10; y < outputImage.rows - 10 ;++y)
     {
-        for(int x = 10 ; x < (inputImage.cols / 2) ;++x)
+        for(int x = 10 ; x < (outputImage.cols / 2) ;++x)
         {
-            cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
+            cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
 
             color.val[0] = 159;
             color.val[1] = 150;
             color.val[2] = 113;
 
-            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
         }
-        for(int x = (inputImage.cols / 2) ; x < inputImage.cols - 10 ;++x)
+        for(int x = (outputImage.cols / 2) ; x < outputImage.cols - 10 ;++x)
         {
             cv::Vec3b color = inputImage.at<cv::Vec3b>(cv::Point(x,y));
 
@@ -136,9 +124,27 @@ void MainWindow::setLayerTwo(cv::Mat inputImage)
             color.val[1] = 26;
             color.val[2] = 217;
 
-            inputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
         }
     }
+}
+
+void MainWindow::setLayerThree()
+{
+    cv::Mat result;
+    cv::Mat bgModel, fgModel;
+
+    cv::grabCut(inputImage,
+                result,
+                faceSelection,
+                bgModel, fgModel,
+                1,
+                cv::GC_INIT_WITH_RECT);
+
+    cv::compare(result, cv::GC_PR_FGD, result, cv::CMP_EQ);
+    inputImage.copyTo(outputImage, result);
+    //
+
 }
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)
