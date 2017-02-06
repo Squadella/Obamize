@@ -72,6 +72,7 @@ void MainWindow::on_pushButtonProcess_clicked()
         setLayerOne();
         setLayerTwo();
         setLayerThree();   
+        setText();
 
         cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
         p.convertFromImage(QImage(outputImage.data, outputImage.cols, outputImage.rows, QImage::Format_RGB888));
@@ -143,6 +144,33 @@ void MainWindow::setLayerThree()
 
     foreground.copyTo(outputImage, selectionImage);
     //inputImage.copyTo(outputImage, selectionImage);
+}
+
+void MainWindow::setText()
+{
+    std::string text = "NO WE CAN'T";
+    int fontFace = cv::FONT_HERSHEY_DUPLEX;
+    double fontScale = 1.33;
+    int thickness = 2;
+
+    cv::Size textSize = cv::getTextSize(text, fontFace, fontScale, thickness, 0);
+    cv::Point textOrg((outputImage.cols - textSize.width) / 2, (outputImage.rows - textSize.height));
+
+    for(int y = outputImage.rows - (textSize.height * 2 + 20); y < outputImage.rows - 10 ;++y)
+    {
+        for(int x = 10 ; x < outputImage.cols - 10 ;++x)
+        {
+            cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+            color.val[0] = 79;
+            color.val[1] = 49;
+            color.val[2] = 2;
+
+            outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+        }
+    }
+
+    cv::putText(outputImage, text, textOrg, fontFace, fontScale, cv::Scalar(152, 131, 86), thickness, CV_AA);
 }
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)

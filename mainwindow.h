@@ -39,6 +39,7 @@ private slots:
     void setLayerOne();
     void setLayerTwo();
     void setLayerThree();
+    void setText();
     QString dialogOpenFile();
     void on_sliderMarginTop_sliderMoved(int position);
     void on_sliderMarginLeft_sliderMoved(int position);
