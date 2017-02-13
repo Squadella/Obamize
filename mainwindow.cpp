@@ -73,6 +73,7 @@ void MainWindow::on_pushButtonProcess_clicked()
         setLayerTwo();
         setLayerThree();
         setLayerFour();
+        setLayerFive();
 
         cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
         p.convertFromImage(QImage(outputImage.data, outputImage.cols, outputImage.rows, QImage::Format_RGB888));
@@ -149,12 +150,53 @@ void MainWindow::setLayerThree()
 void MainWindow::setLayerFour()
 {
     cv::Mat tmp;
-    inputImage.copyTo(tmp);
+    inputImage.copyTo(tmp, selectionImage);
     cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
-    cv::threshold(tmp, tmp, 150, 255, CV_THRESH_BINARY_INV);
-
+    cv::threshold(tmp, tmp, 150, 255, CV_THRESH_BINARY);
     cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
-    tmp.copyTo(outputImage, selectionImage);
+    for(int y = 0; y < outputImage.rows ;++y)
+    {
+        for(int x = 0 ; x < outputImage.cols ;++x)
+        {
+            cv::Vec3b testColor = tmp.at<cv::Vec3b>(cv::Point(x,y));
+            if(testColor[0] == 255)
+            {
+                cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+                color.val[0] = 0;
+                color.val[1] = 0;
+                color.val[2] = 255;
+
+                outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            }
+        }
+    }
+}
+
+void MainWindow::setLayerFive()
+{
+    cv::Mat tmp;
+    inputImage.copyTo(tmp, selectionImage);
+    cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
+    cv::threshold(tmp, tmp, 200, 255, CV_THRESH_BINARY);
+    cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
+    for(int y = 0; y < outputImage.rows ;++y)
+    {
+        for(int x = 0 ; x < outputImage.cols ;++x)
+        {
+            cv::Vec3b testColor = tmp.at<cv::Vec3b>(cv::Point(x,y));
+            if(testColor[0] == 255)
+            {
+                cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+                color.val[0] = 255;
+                color.val[1] = 0;
+                color.val[2] = 0;
+
+                outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            }
+        }
+    }
 }
 
 void MainWindow::on_sliderMarginTop_sliderMoved(int position)

@@ -60,6 +60,7 @@ private:
     cv::Mat selectionImage;
 
     void onPositionChangeEvent();
+    void setLayerFive();
 };
 
 #endif // MAINWINDOW_H
