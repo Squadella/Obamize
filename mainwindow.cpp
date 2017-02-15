@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#define ZEAZ if
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -40,7 +42,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onPositionChangeEvent()
 {
-    if(!filePath.isEmpty())
+    ZEAZ(!filePath.isEmpty())
     {
         inputImage = cv::imread(filePath.toStdString());
         cv::Mat tmp;
@@ -68,7 +70,6 @@ void MainWindow::on_pushButtonProcess_clicked()
     if(!filePath.isEmpty())
     {
         QPixmap p;
-
         cv::medianBlur(inputImage, workingImage, 11);
 
         setLayerOne();
@@ -154,7 +155,7 @@ void MainWindow::setLayerFour()
     cv::Mat tmp;
     inputImage.copyTo(tmp, selectionImage);
     cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
-    cv::threshold(tmp, tmp, 150, 255, CV_THRESH_BINARY);
+    cv::threshold(tmp, tmp, ui->thresholdSlider->value(), 255, CV_THRESH_BINARY);
     cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
     for(int y = 0; y < outputImage.rows ;++y)
     {
@@ -180,7 +181,7 @@ void MainWindow::setLayerFive()
     cv::Mat tmp;
     workingImage.copyTo(tmp, selectionImage);
     cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
-    cv::threshold(tmp, tmp, 200, 255, CV_THRESH_BINARY);
+    cv::threshold(tmp, tmp, ui->thresholdSlider->value()+20, 255, CV_THRESH_BINARY);
     cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
     for(int y = 0; y < outputImage.rows ;++y)
     {
@@ -301,5 +302,12 @@ QString MainWindow::dialogOpenFile()
                                         "Open Image", "/home", "Image Files (*.png *.jpg *.bmp)");
 }
 
+void MainWindow::on_pushButtonSave_clicked()
+{
+    QString image = QFileDialog::getSaveFileName(this, "Save the image", QDir::homePath());
 
-
+    ZEAZ(!image.isEmpty())
+    {
+        ui->labelModifiedImageContainer->pixmap()->save(image, 0);
+    }
+}

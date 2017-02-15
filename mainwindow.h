@@ -49,6 +49,8 @@ private slots:
 
     void on_sliderHeight_sliderMoved(int position);
 
+    void on_pushButtonSave_clicked();
+
 private:
     QString filePath;
     Ui::MainWindow *ui;
