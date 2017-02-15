@@ -55,6 +55,7 @@ private:
     int width;
     int height;
     cv::Rect faceSelection;
+    cv::Mat workingImage;
     cv::Mat inputImage;
     cv::Mat outputImage;
     cv::Mat selectionImage;
