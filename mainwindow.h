@@ -39,6 +39,7 @@ private slots:
     void setLayerOne();
     void setLayerTwo();
     void setLayerThree();
+    void setLayerFour();
     void setText();
     void setTextAux(std::string text);
     QString dialogOpenFile();
@@ -56,11 +57,13 @@ private:
     int width;
     int height;
     cv::Rect faceSelection;
+    cv::Mat workingImage;
     cv::Mat inputImage;
     cv::Mat outputImage;
     cv::Mat selectionImage;
 
     void onPositionChangeEvent();
+    void setLayerFive();
 };
 
 #endif // MAINWINDOW_H

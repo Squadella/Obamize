@@ -69,9 +69,13 @@ void MainWindow::on_pushButtonProcess_clicked()
     {
         QPixmap p;
 
+        cv::medianBlur(inputImage, workingImage, 11);
+
         setLayerOne();
         setLayerTwo();
         setLayerThree();
+        setLayerFour();
+        setLayerFive();
         setText();
 
         cv::cvtColor(outputImage, outputImage, CV_BGR2RGB);
@@ -84,7 +88,7 @@ void MainWindow::on_pushButtonProcess_clicked()
 
 void MainWindow::setLayerOne()
 {
-    inputImage.copyTo(outputImage);
+    workingImage.copyTo(outputImage);
     for(int y = 0; y < outputImage.rows ;++y)
     {
         for(int x = 0 ; x < outputImage.cols ;++x)
@@ -131,7 +135,7 @@ void MainWindow::setLayerThree()
 {
     cv::Mat bgModel, fgModel;
 
-    cv::grabCut(inputImage,
+    cv::grabCut(workingImage,
                 selectionImage,
                 faceSelection,
                 bgModel, fgModel,
@@ -140,10 +144,61 @@ void MainWindow::setLayerThree()
 
     cv::compare(selectionImage, cv::GC_PR_FGD, selectionImage, cv::CMP_EQ);
 
-    cv::Mat foreground(inputImage.size(), CV_8UC3, cv::Scalar(79, 49, 2));
+    cv::Mat foreground(workingImage.size(), CV_8UC3, cv::Scalar(79, 49, 2));
 
     foreground.copyTo(outputImage, selectionImage);
-    //inputImage.copyTo(outputImage, selectionImage);
+}
+
+void MainWindow::setLayerFour()
+{
+    cv::Mat tmp;
+    inputImage.copyTo(tmp, selectionImage);
+    cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
+    cv::threshold(tmp, tmp, 150, 255, CV_THRESH_BINARY);
+    cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
+    for(int y = 0; y < outputImage.rows ;++y)
+    {
+        for(int x = 0 ; x < outputImage.cols ;++x)
+        {
+            cv::Vec3b testColor = tmp.at<cv::Vec3b>(cv::Point(x,y));
+            if(testColor[0] == 255)
+            {
+                cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+                color.val[0] = 0;
+                color.val[1] = 0;
+                color.val[2] = 255;
+
+                outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            }
+        }
+    }
+}
+
+void MainWindow::setLayerFive()
+{
+    cv::Mat tmp;
+    workingImage.copyTo(tmp, selectionImage);
+    cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
+    cv::threshold(tmp, tmp, 200, 255, CV_THRESH_BINARY);
+    cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
+    for(int y = 0; y < outputImage.rows ;++y)
+    {
+        for(int x = 0 ; x < outputImage.cols ;++x)
+        {
+            cv::Vec3b testColor = tmp.at<cv::Vec3b>(cv::Point(x,y));
+            if(testColor[0] == 255)
+            {
+                cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
+
+                color.val[0] = 255;
+                color.val[1] = 0;
+                color.val[2] = 0;
+
+                outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
+            }
+        }
+    }
 }
 
 void MainWindow::setText()
