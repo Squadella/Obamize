@@ -166,9 +166,9 @@ void MainWindow::setLayerFour()
             {
                 cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
 
-                color.val[0] = 0;
-                color.val[1] = 0;
-                color.val[2] = 255;
+                color.val[0] = 159;
+                color.val[1] = 150;
+                color.val[2] = 113;
 
                 outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
             }
@@ -181,7 +181,7 @@ void MainWindow::setLayerFive()
     cv::Mat tmp;
     workingImage.copyTo(tmp, selectionImage);
     cv::cvtColor(tmp, tmp, CV_BGR2GRAY);
-    cv::threshold(tmp, tmp, ui->thresholdSlider->value()+20, 255, CV_THRESH_BINARY);
+    cv::threshold(tmp, tmp, ui->thresholdSlider->value()+30, 255, CV_THRESH_BINARY);
     cv::cvtColor(tmp, tmp, CV_GRAY2BGR);
     for(int y = 0; y < outputImage.rows ;++y)
     {
@@ -192,9 +192,9 @@ void MainWindow::setLayerFive()
             {
                 cv::Vec3b color = outputImage.at<cv::Vec3b>(cv::Point(x,y));
 
-                color.val[0] = 255;
-                color.val[1] = 0;
-                color.val[2] = 0;
+                color.val[0] = 34;
+                color.val[1] = 26;
+                color.val[2] = 217;
 
                 outputImage.at<cv::Vec3b>(cv::Point(x,y)) = color;
             }
